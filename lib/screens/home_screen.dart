@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
       "location": "Tokyo, Japan",
       "profileImage": "https://picsum.photos/id/1045/800/600",
       "images": [
-        "https://picsum.photos/id/1025/800/600",
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
         "https://picsum.photos/id/1035/800/600",
         "https://picsum.photos/id/1045/800/600",
       ],
@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
       "location": "Tokyo, Japan",
       "profileImage": "https://picsum.photos/id/1045/800/600",
       "images": [
-        "https://picsum.photos/id/1055/800/600",
+        "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f",
         "https://picsum.photos/id/1065/800/600",
         "https://picsum.photos/id/1075/800/600",
       ],
