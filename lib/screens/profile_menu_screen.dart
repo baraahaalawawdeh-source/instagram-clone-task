@@ -18,7 +18,7 @@ class ProfileMenuScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 children: [
-                  const SizedBox(height: 50), // زيادة المسافة من الأعلى
+                  const SizedBox(height: 50),
                   _buildProfileHeader(),
                   const SizedBox(height: 30),
                   _buildMenuItem(Icons.archive, 'Archive', () {}),
@@ -33,7 +33,7 @@ class ProfileMenuScreen extends StatelessWidget {
                   ),
                   _buildMenuItem(Icons.facebook, 'Open Facebook', () {}),
                   const SizedBox(height: 40),
-                  // تم إزالة Divider هنا
+
                   const SizedBox(height: 20),
                 ],
               ),
@@ -76,7 +76,7 @@ class ProfileMenuScreen extends StatelessWidget {
 
   Widget _buildLogoutButton(BuildContext context) {
     return Align(
-      alignment: Alignment.centerLeft, // على الطرف الأيسر
+      alignment: Alignment.centerLeft,
       child: TextButton.icon(
         icon: const Icon(Icons.logout, color: Colors.black87),
         label: const Text(
@@ -98,7 +98,6 @@ class ProfileMenuScreen extends StatelessWidget {
     );
   }
 
-  // **فتح الشاشة من يمين الشاشة مع جزء مظلل للخلفية**
   static void openFromRight(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -107,12 +106,11 @@ class ProfileMenuScreen extends StatelessWidget {
       builder: (context) {
         return Stack(
           children: [
-            // الخلفية المظللة، تغطي كامل الشاشة ويمكن الضغط لإغلاق المنيو
             GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Container(color: Colors.black.withOpacity(0.4)),
             ),
-            // المنيو نفسه
+
             Align(
               alignment: Alignment.centerRight,
               child: FractionallySizedBox(

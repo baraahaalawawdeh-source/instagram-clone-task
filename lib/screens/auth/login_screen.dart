@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../home_screen.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -33,9 +34,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     _buildTopBackArrow(context),
-                    const SizedBox(height: 60), // مسافة قبل اللوجو
+                    const SizedBox(height: 60),
                     _buildInstagramLogo(),
-                    const SizedBox(height: 50), // مسافة بعد اللوجو
+                    const SizedBox(height: 50),
                     _buildInputFields(),
                     const SizedBox(height: 20),
                     _buildLoginButton(),
@@ -61,21 +62,24 @@ class _LoginScreenState extends State<LoginScreen> {
     return Align(
       alignment: Alignment.topLeft,
       child: Padding(
-        padding: const EdgeInsets.only(top: 10),
-        child: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () {}),
+        padding: const EdgeInsets.only(top: 56, left: 16.41),
+        child: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: SvgPicture.asset(
+            'assets/icons/back_icon.svg',
+            width: 9.38,
+            height: 17.47,
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildInstagramLogo() {
-    return Text(
-      'Instagram',
-      style: const TextStyle(
-        fontFamily: 'Billabong', // الخط من assets
-        fontSize: 50, // حجم مناسب يشبه التصميم
-        color: Colors.black,
-        fontWeight: FontWeight.w400,
-      ),
+    return SvgPicture.asset(
+      'assets/icons/instagram_logo.svg',
+      width: 182,
+      height: 49,
     );
   }
 
@@ -135,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
               'Forgot password?',
               style: TextStyle(
                 color: Color(0xFF0095F6),
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.normal,
                 fontSize: 14,
               ),
             ),
@@ -173,38 +177,27 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildFacebookLoginButton() {
     return TextButton(
       onPressed: () {},
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 26, // حجم الشعار
-            height: 26,
-            decoration: BoxDecoration(
-              color: const Color(0xFF1877F2), // اللون الأزرق الرسمي
-              borderRadius: BorderRadius.circular(6), // حواف ملساء
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/icons/facebook_icon.svg',
+              width: 17,
+              height: 17,
             ),
-            child: const Center(
-              child: Text(
-                'f',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25, // حجم الحرف مناسب
-                  fontFamily: 'Arial', // أو أي خط قريب من شعار فيسبوك
-                ),
+            const SizedBox(width: 8),
+            const Text(
+              'Log in with Facebook',
+              style: TextStyle(
+                color: Color(0xFF1877F2),
+                fontWeight: FontWeight.normal,
+                fontSize: 15,
               ),
             ),
-          ),
-          const SizedBox(width: 8),
-          const Text(
-            'Log in with Facebook',
-            style: TextStyle(
-              color: Color(0xFF1877F2),
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -212,15 +205,15 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildDivider() {
     return const Row(
       children: [
-        Expanded(child: Divider(color: Color(0xFFB0B0B0), thickness: 1.2)),
+        Expanded(child: Divider(color: Color(0xFFB0B0B0), thickness: 0.5)),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             'OR',
-            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal),
           ),
         ),
-        Expanded(child: Divider(color: Color(0xFFB0B0B0), thickness: 1.2)),
+        Expanded(child: Divider(color: Color(0xFFB0B0B0), thickness: 0.5)),
       ],
     );
   }
@@ -239,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
             'Sign up.',
             style: TextStyle(
               color: Color(0xFF0095F6),
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.normal,
             ),
           ),
         ),

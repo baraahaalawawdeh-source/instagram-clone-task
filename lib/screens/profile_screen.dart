@@ -1,4 +1,3 @@
-// lib/screens/profile_screen.dart
 import 'package:flutter/material.dart';
 import 'profile_menu_screen.dart';
 import 'home_screen.dart';
