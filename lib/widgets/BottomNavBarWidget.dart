@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../screens/profile_screen.dart';
+import '../screens/home_screen.dart';
 
 class BottomNavBarWidget extends StatelessWidget {
   const BottomNavBarWidget({super.key});
@@ -17,13 +18,22 @@ class BottomNavBarWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SvgPicture.asset('assets/icons/home.svg', width: 22),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const HomeScreen()),
+              );
+            },
+            child: SvgPicture.asset('assets/icons/home.svg', width: 22),
+          ),
+
           SvgPicture.asset('assets/icons/search.svg', width: 23.36),
           SvgPicture.asset('assets/icons/add.svg', width: 23.5),
           SvgPicture.asset('assets/icons/favorite.svg', width: 23.66),
           GestureDetector(
             onTap: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (_) => const ProfileScreen()),
               );

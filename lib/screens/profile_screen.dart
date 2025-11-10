@@ -1,334 +1,348 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../widgets/BottomNavBarWidget.dart';
 import 'profile_menu_screen.dart';
-import 'home_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  final List<String> sampleImages = const [
-    'https://picsum.photos/id/1011/800/800',
-    'https://picsum.photos/id/1012/800/800',
-    'https://picsum.photos/id/1013/800/800',
-    'https://picsum.photos/id/1015/800/800',
-    'https://picsum.photos/id/1016/800/800',
-    'https://picsum.photos/id/1020/800/800',
-    'https://picsum.photos/id/1024/800/800',
-    'https://picsum.photos/id/1025/800/800',
-    'https://picsum.photos/id/1035/800/800',
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          centerTitle: true,
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Text(
-                'jacob_w',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(width: 6),
-              Icon(Icons.keyboard_arrow_down, color: Colors.black54, size: 20),
-            ],
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.menu, color: Colors.black87),
-              onPressed: () => ProfileMenuScreen.openFromRight(context),
-            ),
-            const SizedBox(width: 6),
-          ],
-          leading: const SizedBox.shrink(),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [_buildProfileHeader(context), _buildTabSection()],
-          ),
-        ),
-        bottomNavigationBar: _buildBottomNavBar(context),
-      ),
-    );
-  }
+    const basePath = 'assets/images/';
+    const iconsPath = 'assets/icons/';
+    const double tabWidth = 186.0;
+    const double tabHeight = 44.0;
+    const double iconSize = 22.5;
+    const double underlineWidth = 186.0;
+    const double underlineHeight = 1.0;
+    const double gapBetweenTabAndUnderline = 3.0;
 
-  Widget _buildProfileHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        children: [
-          Row(
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double totalTabsWidth = tabWidth * 2;
+    final double leftOffset = (screenWidth - totalTabsWidth) / 2;
+    final double underlineLeft = leftOffset + (tabWidth - underlineWidth) / 2;
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
             children: [
-              Container(
-                width: 86,
-                height: 86,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.grey.shade300, width: 3),
-                  image: const DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                      'https://picsum.photos/id/1005/800/800',
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Stack(
+                  alignment: Alignment.center,
                   children: [
-                    _buildStat('9', 'Posts'),
-                    _buildStat('834', 'Followers'),
-                    _buildStat('162', 'Following'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          '${iconsPath}private_icon.svg',
+                          width: 14,
+                        ),
+                        const SizedBox(width: 6),
+                        const Text(
+                          'jacob_w',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18.5,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        const Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                          size: 22,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () => ProfileMenuScreen.openFromRight(context),
+                        child: SvgPicture.asset(
+                          '${iconsPath}menu_icon.svg',
+                          width: 24,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  'Jacob West',
-                  style: TextStyle(fontWeight: FontWeight.w700),
+
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 88,
+                      height: 88,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.grey.shade300,
+                          width: 1.5,
+                        ),
+                      ),
+                      child: ClipOval(
+                        child: Image.asset(
+                          '${basePath}profiles/my_profile.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 26),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          _InfoItem(label: 'Posts', value: '54'),
+                          _InfoItem(label: 'Followers', value: '834'),
+                          _InfoItem(label: 'Following', value: '162'),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 2),
-                Text.rich(
-                  TextSpan(
-                    style: TextStyle(color: Colors.black87),
+              ),
+
+              const SizedBox(height: 10),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextSpan(text: 'Digital goodies designer '),
-                      TextSpan(
-                        text: '@pixsellz',
-                        style: TextStyle(color: Colors.blue),
+                      Text(
+                        'Jacob West',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                      SizedBox(height: 2),
+                      Row(
+                        children: [
+                          Text(
+                            'Digital goodies designer ',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                          Text(
+                            '@pixsellz',
+                            style: TextStyle(fontSize: 14, color: Colors.blue),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 2),
+                      Text(
+                        'Everything is designed.',
+                        style: TextStyle(fontSize: 14),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 4),
-                Text(
-                  'Everything is designed.',
-                  style: TextStyle(color: Colors.black54),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 12),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton(
-              onPressed: () {},
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                side: BorderSide(color: Colors.grey.shade300),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
+              ),
+
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 32,
+                  child: OutlinedButton(
+                    onPressed: () {},
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: Colors.grey.shade300, width: 1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      backgroundColor: Colors.white,
+                      padding: EdgeInsets.zero,
+                    ),
+                    child: const Text(
+                      'Edit Profile',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              child: const Text(
-                'Edit Profile',
-                style: TextStyle(color: Colors.black87),
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 96,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                _buildStoryCircle('New', add: true),
-                _buildStoryCircle('Friends', imageUrl: sampleImages[3]),
-                _buildStoryCircle('Sport', imageUrl: sampleImages[2]),
-                _buildStoryCircle('Design', imageUrl: sampleImages[0]),
-                const SizedBox(width: 8),
-              ],
-            ),
-          ),
-          const SizedBox(height: 8),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildTabSection() {
-    return Column(
-      children: [
-        const TabBar(
-          indicatorColor: Colors.black87,
-          tabs: [
-            Tab(icon: Icon(Icons.grid_on, color: Colors.black87)),
-            Tab(icon: Icon(Icons.person_pin_outlined, color: Colors.black87)),
-          ],
-        ),
-        SizedBox(
-          height: 520,
-          child: TabBarView(children: [_buildGrid(), _buildTagged()]),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildGrid() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 1.0, vertical: 6),
-      child: GridView.builder(
-        itemCount: sampleImages.length,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: 2,
-          crossAxisSpacing: 2,
-        ),
-        itemBuilder: (context, index) {
-          return Image.network(sampleImages[index], fit: BoxFit.cover);
-        },
-      ),
-    );
-  }
-
-  Widget _buildTagged() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 1.0, vertical: 6),
-      child: GridView.builder(
-        itemCount: sampleImages.length,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: 2,
-          crossAxisSpacing: 2,
-        ),
-        itemBuilder: (context, index) {
-          return Stack(
-            fit: StackFit.expand,
-            children: [
-              Image.network(
-                sampleImages[(index + 3) % sampleImages.length],
-                fit: BoxFit.cover,
-              ),
-              if (index % 4 == 0)
-                const Positioned(
-                  right: 4,
-                  top: 4,
-                  child: Icon(Icons.videocam, size: 18, color: Colors.white),
+              const SizedBox(height: 15),
+              SizedBox(
+                height: 100,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.only(left: 16),
+                  children: [
+                    _buildHighlightItem('New', isAdd: true),
+                    _buildHighlightItem(
+                      'Friends',
+                      image: '${basePath}highlight/Friends.png',
+                    ),
+                    _buildHighlightItem(
+                      'Sport',
+                      image: '${basePath}highlight/Sport.png',
+                    ),
+                    _buildHighlightItem(
+                      'Design',
+                      image: '${basePath}highlight/Design.png',
+                    ),
+                  ],
                 ),
+              ),
+
+              const Divider(height: 1, thickness: 1, color: Color(0xFFDBDBDB)),
+              SizedBox(
+                height: tabHeight,
+                child: Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: tabWidth,
+                        height: tabHeight,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Center(
+                            child: SvgPicture.asset(
+                              '${iconsPath}Grid_Tab.svg',
+                              width: iconSize,
+                              height: iconSize,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(
+                        width: tabWidth,
+                        height: tabHeight,
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Center(
+                            child: SvgPicture.asset(
+                              '${iconsPath}tags_icon.svg',
+                              width: iconSize,
+                              height: iconSize,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              SizedBox(height: gapBetweenTabAndUnderline),
+              SizedBox(
+                height: underlineHeight,
+                width: double.infinity,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: underlineLeft,
+                      child: Container(
+                        width: underlineWidth,
+                        height: underlineHeight,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: 9,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 1,
+                  crossAxisSpacing: 1,
+                  childAspectRatio: 1,
+                ),
+                itemBuilder: (context, index) {
+                  final imagePath =
+                      '${basePath}profile_posts/profile_post${index + 1}.png';
+                  return Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Image.asset(imagePath, fit: BoxFit.cover),
+                      if (index == 4)
+                        Positioned(
+                          right: 6,
+                          top: 6,
+                          child: SvgPicture.asset(
+                            '${iconsPath}Video_Icon.svg',
+                            width: 18,
+                          ),
+                        ),
+                    ],
+                  );
+                },
+              ),
             ],
-          );
-        },
+          ),
+        ),
       ),
+      bottomNavigationBar: const BottomNavBarWidget(),
     );
   }
 
-  Widget _buildStat(String number, String label) {
-    return Column(
-      children: [
-        Text(
-          number,
-          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: const TextStyle(color: Colors.black54, fontSize: 12),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildStoryCircle(String label, {String? imageUrl, bool add = false}) {
+  static Widget _buildHighlightItem(
+    String label, {
+    String? image,
+    bool isAdd = false,
+  }) {
     return Padding(
-      padding: const EdgeInsets.only(right: 12.0),
+      padding: const EdgeInsets.only(right: 12),
       child: Column(
         children: [
           Container(
-            width: 72,
-            height: 72,
+            width: 70,
+            height: 70,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: Colors.grey.shade300, width: 2),
-              image: imageUrl != null
-                  ? DecorationImage(
-                      image: NetworkImage(imageUrl),
-                      fit: BoxFit.cover,
-                    )
-                  : null,
+              border: Border.all(color: Colors.grey.shade300, width: 1.2),
             ),
-            child: imageUrl == null && add
-                ? const Icon(Icons.add, size: 28, color: Colors.black54)
-                : null,
+            child: Center(
+              child: isAdd
+                  ? const Icon(Icons.add, size: 28, color: Colors.black)
+                  : ClipOval(child: Image.asset(image!, fit: BoxFit.cover)),
+            ),
           ),
           const SizedBox(height: 6),
-          SizedBox(
-            width: 72,
-            child: Text(
-              label,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12),
-            ),
-          ),
+          Text(label, style: const TextStyle(fontSize: 12)),
         ],
       ),
     );
   }
+}
 
-  Widget _buildBottomNavBar(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      currentIndex: 4,
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-      onTap: (index) {
-        if (index == 0) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()),
-          );
-        }
-      },
-      items: [
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          label: '',
+class _InfoItem extends StatelessWidget {
+  final String label;
+  final String value;
+  const _InfoItem({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
         ),
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.search_outlined),
-          label: '',
-        ),
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.add_box_outlined),
-          label: '',
-        ),
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_border),
-          label: '',
-        ),
-        BottomNavigationBarItem(
-          icon: Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.grey.shade300, width: 1.5),
-              image: const DecorationImage(
-                image: NetworkImage('https://picsum.photos/id/1005/800/800'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          label: '',
-        ),
+        const SizedBox(height: 2),
+        Text(label, style: TextStyle(fontSize: 13.5, color: Colors.grey[800])),
       ],
     );
   }

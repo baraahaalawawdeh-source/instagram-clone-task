@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../home_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,13 +11,43 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  String _emailError = '';
+  String _passwordError = '';
+
+  // FocusNodes for changing border color on focus
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
+
+  bool validateEmail(String email) {
+    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$').hasMatch(email);
+  }
+
+  bool validatePassword(String password) {
+    return RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$&*~]).{6,}$',
+    ).hasMatch(password);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _emailFocus.addListener(() {
+      setState(() {}); // triggers rebuild to update border color
+    });
+    _passwordFocus.addListener(() {
+      setState(() {});
+    });
+  }
 
   @override
   void dispose() {
-    _usernameController.dispose();
     _passwordController.dispose();
+    _emailController.dispose();
+    _emailFocus.dispose();
+    _passwordFocus.dispose();
     super.dispose();
   }
 
@@ -87,22 +118,36 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       children: [
         TextField(
-          controller: _usernameController,
+          controller: _emailController,
+          focusNode: _emailFocus,
           decoration: InputDecoration(
-            hintText: 'asad_khasanov',
+            hintText: 'Email',
+            errorText: _emailError.isEmpty ? null : _emailError,
             filled: true,
             fillColor: const Color(0xFFFAFAFA),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
-              borderSide: const BorderSide(color: Color(0xFFEFEFEF)),
+              borderSide: BorderSide(
+                color: _emailFocus.hasFocus
+                    ? Colors.black
+                    : const Color(0xFFEFEFEF),
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
-              borderSide: const BorderSide(color: Color(0xFFEFEFEF)),
+              borderSide: BorderSide(
+                color: _emailFocus.hasFocus
+                    ? Colors.black
+                    : const Color(0xFFEFEFEF),
+              ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
-              borderSide: const BorderSide(color: Color(0xFFEFEFEF)),
+              borderSide: BorderSide(
+                color: _emailFocus.hasFocus
+                    ? Colors.black
+                    : const Color(0xFFEFEFEF),
+              ),
             ),
             contentPadding: const EdgeInsets.all(15),
           ),
@@ -110,22 +155,36 @@ class _LoginScreenState extends State<LoginScreen> {
         const SizedBox(height: 12),
         TextField(
           controller: _passwordController,
+          focusNode: _passwordFocus,
           obscureText: true,
           decoration: InputDecoration(
             hintText: 'Password',
+            errorText: _passwordError.isEmpty ? null : _passwordError,
             filled: true,
             fillColor: const Color(0xFFFAFAFA),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
-              borderSide: const BorderSide(color: Color(0xFFEFEFEF)),
+              borderSide: BorderSide(
+                color: _passwordFocus.hasFocus
+                    ? Colors.black
+                    : const Color(0xFFEFEFEF),
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
-              borderSide: const BorderSide(color: Color(0xFFEFEFEF)),
+              borderSide: BorderSide(
+                color: _passwordFocus.hasFocus
+                    ? Colors.black
+                    : const Color(0xFFEFEFEF),
+              ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
-              borderSide: const BorderSide(color: Color(0xFFEFEFEF)),
+              borderSide: BorderSide(
+                color: _passwordFocus.hasFocus
+                    ? Colors.black
+                    : const Color(0xFFEFEFEF),
+              ),
             ),
             contentPadding: const EdgeInsets.all(15),
           ),
@@ -151,11 +210,40 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildLoginButton() {
     return ElevatedButton(
-      onPressed: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-        );
+      onPressed: () async {
+        setState(() {
+          _emailError = validateEmail(_emailController.text)
+              ? ''
+              : 'Invalid email format';
+          _passwordError = validatePassword(_passwordController.text)
+              ? ''
+              : 'Password must include: Uppercase, Lowercase, Special char';
+        });
+
+        if (_emailError.isEmpty && _passwordError.isEmpty) {
+          try {
+            await _auth.signInWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim(),
+            );
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+            );
+          } on FirebaseAuthException catch (e) {
+            String errorMsg = '';
+            if (e.code == 'user-not-found') {
+              errorMsg = 'No user found for that email.';
+            } else if (e.code == 'wrong-password') {
+              errorMsg = 'Wrong password provided.';
+            } else {
+              errorMsg = e.message ?? 'Authentication error';
+            }
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(errorMsg)));
+          }
+        }
       },
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(double.infinity, 50),

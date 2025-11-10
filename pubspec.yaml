@@ -5,17 +5,20 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.9.2
+  sdk: ">=3.9.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.1.1
+  firebase_auth: ^6.1.2
+  firebase_core: ^4.2.1
+  cloud_firestore: ^6.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true
@@ -45,3 +48,24 @@ flutter:
     - assets/icons/more_icon.svg
     - assets/icons/livestream_icon.svg
     - assets/images/profiles/liker1.png
+    - assets/icons/red_like.svg
+    - assets/images/profile_posts/profile_post1.png
+    - assets/images/profile_posts/profile_post2.png
+    - assets/images/profile_posts/profile_post3.png
+    - assets/images/profile_posts/profile_post4.png
+    - assets/images/profile_posts/profile_post5.png
+    - assets/images/profile_posts/profile_post6.png
+    - assets/images/profile_posts/profile_post7.png
+    - assets/images/profile_posts/profile_post8.png
+    - assets/images/profile_posts/profile_post9.png
+    - assets/images/highlight/Design.png
+    - assets/images/highlight/Friends.png
+    - assets/images/highlight/Sport.png
+    - assets/icons/Accounts_List.svg
+    - assets/icons/Grid_Tab.svg
+    - assets/icons/menu_icon.svg
+    - assets/icons/private_icon.svg
+    - assets/icons/tags_icon.svg
+    - assets/icons/Video_Icon.svg
+
+    

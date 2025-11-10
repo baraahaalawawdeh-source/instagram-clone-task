@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
         "assets/images/posts/post1.png",
         "assets/images/posts/post1.png",
         "assets/images/posts/post1.png",
-      ], // ← 3 صور لتفعيل العداد والـ dots
+      ],
       "caption":
           "The game in Japan was amazing and I want to share some photos",
       "date": "September 19",
@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
         "assets/images/posts/post2.png",
         "assets/images/posts/post2.png",
         "assets/images/posts/post2.png",
-      ], // ← 3 صور لتفعيل العداد والـ dots
+      ],
       "caption":
           "The game in Japan was amazing and I want to share some photos",
       "date": "September 19",
@@ -64,8 +64,6 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             const TopBarWidget(),
-
-            // STORIES
             SizedBox(
               height: 98,
               child: ListView.separated(

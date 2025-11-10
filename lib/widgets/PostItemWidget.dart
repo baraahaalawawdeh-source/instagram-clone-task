@@ -32,6 +32,7 @@ class PostItemWidget extends StatefulWidget {
 class _PostItemWidgetState extends State<PostItemWidget> {
   int _currentPage = 0;
   late PageController _pageController;
+  bool isLiked = false;
 
   @override
   void initState() {
@@ -108,8 +109,6 @@ class _PostItemWidgetState extends State<PostItemWidget> {
             ],
           ),
         ),
-
-        // IMAGE AREA
         AspectRatio(
           aspectRatio: 1,
           child: PageView.builder(
@@ -123,20 +122,26 @@ class _PostItemWidgetState extends State<PostItemWidget> {
             ),
           ),
         ),
-
-        // ACTION ICONS + DOTS
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // LEFT ICONS
               Row(
                 children: [
-                  SvgPicture.asset(
-                    'assets/icons/favorite.svg',
-                    width: 23.66,
-                    height: 20.58,
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isLiked = !isLiked;
+                      });
+                    },
+                    child: SvgPicture.asset(
+                      isLiked
+                          ? 'assets/icons/red_like.svg'
+                          : 'assets/icons/favorite.svg',
+                      width: 23.66,
+                      height: 20.58,
+                    ),
                   ),
                   const SizedBox(width: 14),
                   SvgPicture.asset(
@@ -152,11 +157,9 @@ class _PostItemWidgetState extends State<PostItemWidget> {
                   ),
                 ],
               ),
-
-              // DOTS
               Expanded(
                 child: Transform.translate(
-                  offset: const Offset(-24, 0), // -10 لتحريك يسار، +10 يمين
+                  offset: const Offset(-24, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
@@ -176,8 +179,6 @@ class _PostItemWidgetState extends State<PostItemWidget> {
                   ),
                 ),
               ),
-
-              // SAVE ICON
               SvgPicture.asset(
                 'assets/icons/save_icon.svg',
                 width: 20.5,
@@ -186,8 +187,6 @@ class _PostItemWidgetState extends State<PostItemWidget> {
             ],
           ),
         ),
-
-        // LIKES
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14),
           child: Row(
@@ -219,8 +218,6 @@ class _PostItemWidgetState extends State<PostItemWidget> {
         ),
 
         const SizedBox(height: 6),
-
-        // CAPTION
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14),
           child: RichText(
@@ -238,8 +235,6 @@ class _PostItemWidgetState extends State<PostItemWidget> {
         ),
 
         const SizedBox(height: 6),
-
-        // DATE
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14),
           child: Text(
