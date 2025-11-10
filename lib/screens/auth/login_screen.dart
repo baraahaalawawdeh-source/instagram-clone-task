@@ -17,7 +17,6 @@ class _LoginScreenState extends State<LoginScreen> {
   String _emailError = '';
   String _passwordError = '';
 
-  // FocusNodes for changing border color on focus
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
 
@@ -35,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _emailFocus.addListener(() {
-      setState(() {}); // triggers rebuild to update border color
+      setState(() {});
     });
     _passwordFocus.addListener(() {
       setState(() {});
